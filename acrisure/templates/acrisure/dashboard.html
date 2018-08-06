@@ -91,7 +91,7 @@
                                 <div class="sidebar-user-name">{{ user.get_full_name }}</div>
                                 <div class="sidebar-user-links">
                                     <!-- Opens the user settings modal that can be found at the bottom of each page (page_footer.html in PHP version) -->
-                                    <a href="javascript:void(0)" class="enable-tooltip" data-placement="bottom" title="Settings" onclick="$('#modal-user-settings').modal('show');"><i class="gi gi-cogwheel"></i></a>
+                                    <a href="javascript:void(0)" class="enable-tooltip" data-placement="bottom" title="Settings" onclick="$('#client-add').modal('show');"><i class="gi gi-user_add"></i></a>
                                     <a href="{% url 'out' %}" data-toggle="tooltip" data-placement="bottom" title="Logout"><i class="gi gi-exit"></i></a>
                                 </div>
                             </div>
@@ -106,7 +106,7 @@
                                             <a href="{% url 'dashboard' %}">Dashboard</a>
                                         </li>
                                         <li>
-                                            <a href="#modal-user-settings" data-toggle="modal">
+                                            <a href="#client-add" data-toggle="modal">
                                             <span class="move_next_right">Add Client</span><span><i class="gi gi-user_add"></i></span>
                                             </a>
                                         </li>
@@ -257,7 +257,7 @@
 
         <!-- begin modals -->
         <!-- User Settings, modal which opens from Settings link (found in top right user menu) and the Cog link (found in sidebar user info) -->
-        <div id="modal-user-settings" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div id="client-add" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <!-- Modal Header -->
