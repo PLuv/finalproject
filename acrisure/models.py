@@ -28,7 +28,7 @@ class Account(models.Model):
     # owner's name set to max_length 35 per UK Gov standards for names http://webarchive.nationalarchives.gov.uk/20100407173424/http://www.cabinetoffice.gov.uk/govtalk/schemasstandards/e-gif/datastandards.aspx
     # http://webarchive.nationalarchives.gov.uk/+/http://www.cabinetoffice.gov.uk/media/254290/GDS%20Catalogue%20Vol%202.pdf
     owner = models.CharField(max_length = 35)
-    phone = models.CharField(null=True, blank=True)
+    phone = models.CharField(max_length = 11, blank=True)
     email = models.EmailField(null=True, blank=True)
     address = models.CharField(max_length = 75)
 
@@ -37,7 +37,7 @@ class Account(models.Model):
 
 
 # Vehicle class
-class Vehicle:
+class Vehicle(models.Model):
     year = models.CharField(max_length = 35)
     make = models.CharField(max_length = 20)
     model = models.CharField(max_length = 20)
@@ -50,12 +50,12 @@ class Vehicle:
 
 
 # Coverage options
-class Coverages(models.Model):
+class Coverage(models.Model):
     liability = models.CharField(max_length = 30)
     symbol = models.IntegerField()
     pip = models.CharField(max_length = 6)
     um = models.CharField(max_length = 15)
-    ded = MoneyField(max_digits=5, decimal_places=0, default_currenty='USD')
+    ded = MoneyField(max_digits=5, decimal_places=0, default_currency='USD')
 
 
 # Policy class
@@ -70,5 +70,5 @@ class Policy(models.Model):
     account = models.OneToOneField(Account, on_delete=models.CASCADE)
     effective_date = models.DateField(null=True)
     expiration_date = models.DateField(null=True)
-    coverages = models.ForeignKey(Coverages, on_delete=models.PROTECT, null=True, blank=True)
+    coverages = models.ForeignKey(Coverage, on_delete=models.PROTECT, null=True, blank=True)
     vehicles = models.ForeignKey(Vehicle, on_delete=models.PROTECT, null=True, blank=True)
