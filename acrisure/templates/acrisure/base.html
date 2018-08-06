@@ -1,0 +1,15 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <!-- Add Favicon -->
+        <link rel="shortcut icon"
+        href="{% static 'acrisure/pics/favicon.ico' %}">
+        <title>Acrisure: {% block title %}{% endblock %}</title>
+    </head>
+    <body>
+        {% block body %}
+        {% endblock %}
+    </body>
+</html>

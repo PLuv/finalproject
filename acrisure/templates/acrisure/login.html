@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- couple bits and ideas copied from: https://colorlib.com/wp/template/login-form-v1/ -->
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="{% static 'acrisure/logstyle/bootstrap.min.css' %}" />
+        <link rel="stylesheet" href="{% static 'acrisure/logstyle/animate.css' %}" />
+        <link rel="stylesheet" href="{% static 'acrisure/logstyle/hamburgers.min.css' %}" />
+        <link rel="stylesheet" href="{% static 'acrisure/logstyle/select2.min.css' %}" />
+
+        <!-- App's own CSS -->
+        <link rel="stylesheet" href="{% static 'acrisure/logstyle/logstyles.css' %}" />
+
+        <!-- Add Favicon -->
+        <link rel="shortcut icon"
+        href="{% static 'acrisure/logpics/logfavicon.ico' %}">
+
+        <title>Acrisure: Login</title>
+    </head>
+    <body>
+
+        <div class="limiter">
+            <div class="container-login100">
+                <div class="wrap-login100">
+                    <div class="login100-pic js-tilt" data-tilt>
+                        <img src="{% static 'acrisure/logpics/img-01.png' %}" alt="IMG">
+                    </div>
+
+                    <form action="{% url 'index' %}" method="post" class="login100-form validate-form">
+                        {% csrf_token %}
+    					<span class="login100-form-title">
+    						Staff Login
+    					</span>
+
+    					<div class="wrap-input100 validate-input" data-validate = "Username is required">
+    						<input class="input100" type="text" name="username" placeholder="Username">
+    						<span class="focus-input100"></span>
+    						<span class="symbol-input100">
+    							<i aria-hidden="true"><img src="{% static 'acrisure/logpics/44-group.png' %}"></i>
+    						</span>
+    					</div>
+
+    					<div class="wrap-input100 validate-input" data-validate = "Password is required">
+    						<input class="input100" type="password" name="pass" placeholder="Password">
+    						<span class="focus-input100"></span>
+    						<span class="symbol-input100">
+    							<i aria-hidden="true"><img src="{% static 'acrisure/logpics/padlock.png' %}"></i>
+    						</span>
+    					</div>
+
+    					<div class="container-login100-form-btn">
+    						<button class="login100-form-btn">
+    							Login
+    						</button>
+    					</div>
+
+    					<div class="text-center p-t-12">
+    						<!-- <span class="txt1">
+    							Forgot
+    						</span>
+    						<a class="txt2" href="#">
+    							Username / Password?
+    						</a> -->
+    					</div>
+
+    					<div class="text-center p-t-136">
+    						<a class="txt2" href="/admin">
+    							Management Login
+    							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+    						</a>
+    					</div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- jquery code from colorlib.  See logstyles.scss for address -->
+        <script src="{% static 'acrisure/logstyle/jquery/jquery-3.2.1.min.js' %}"></script>
+        <script src="{% static 'acrisure/logstyle/jquery/popper.js' %}"></script>
+        <script src="{% static 'acrisure/logstyle/jquery/bootstrap.min.js' %}"></script>
+        <script src="{% static 'acrisure/logstyle/jquery/select2.min.js' %}"></script>
+        <script src="{% static 'acrisure/logstyle/jquery/tilt.jquery.min.js' %}"></script>
+    	<script >
+    		$('.js-tilt').tilt({
+    			scale: 1.1
+    		})
+    	</script>
+        <script src="{% static 'acrisure/logstyle/jquery/main.js' %}"></script>
+    </body>
+</html>
