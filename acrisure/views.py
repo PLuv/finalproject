@@ -5,9 +5,11 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.contrib.auth.decorators import login_required
 
 from .models import *
-#from .forms import *
+from .forms import AccountForm
+
 
 # Login view @ index
 def index(request):
@@ -29,9 +31,31 @@ def index(request):
         return render(request, "acrisure/login.html")
 
 
-# dashboard = landing page when user logs in.
+@login_required(login_url='/')
 def dashboard_view(request):
-    return render(request, "acrisure/dashboard.html")
+    """ Dashboard / Login Landing View / Main Page """
+
+    # Generate blank form
+    form = AccountForm()
+    return render(request, "acrisure/dashboard.html", {'accountform': form})
+
+
+def add_client(request):
+    if request.method == 'POST':
+        # Generate form with data from the request
+        accountform = AccountForm(request.POST)
+        # Reference is now a bound instance with user data sent in POST
+        # Call is_valid() to validate data and create cleaned_data and errors dict
+        if accountform.is_valid():
+            accountform.save()
+            print("Here")
+            return HttpResponseRedirect(reverse("dashboard"))
+
+        # !!! This needs to be changed !!!
+        return HttpResponse("Recieved unclean Form")
+    return HttpResponseRedirect(reverse("index"))
+
+
 
 # Logs user out
 def logout_view(request):

@@ -90,8 +90,8 @@
                                 </div>
                                 <div class="sidebar-user-name">{{ user.get_full_name }}</div>
                                 <div class="sidebar-user-links">
-                                    <!-- Opens the user settings modal that can be found at the bottom of each page (page_footer.html in PHP version) -->
-                                    <a href="javascript:void(0)" class="enable-tooltip" data-placement="bottom" title="Settings" onclick="$('#client-add').modal('show');"><i class="gi gi-user_add"></i></a>
+                                    <!-- Opens the Client add modal that can be found at the bottom of each page -->
+                                    <a href="javascript:void(0)" class="enable-tooltip" data-placement="bottom" title="Add Client" onclick="$('#client-add').modal('show');"><i class="gi gi-user_add"></i></a>
                                     <a href="{% url 'out' %}" data-toggle="tooltip" data-placement="bottom" title="Logout"><i class="gi gi-exit"></i></a>
                                 </div>
                             </div>
@@ -268,50 +268,23 @@
 
                     <!-- Client Modal Body -->
                     <div class="modal-body">
-                        <form action="index.html" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered" onsubmit="return false;">
+                        <form action="{% url 'add_client' %}" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered">
+                            {% csrf_token %}
                             <fieldset>
-                                <legend>Vital Info</legend>
+                                <legend>Client Info</legend>
+                                {% for field in accountform %}
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label">Username</label>
+                                    <label class="col-md-4 control-label" for="user-settings-password">Account {{ field.name }}</label>
                                     <div class="col-md-8">
-                                        <p class="form-control-static">Admin</p>
+                                        {{ field }}
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label" for="user-settings-email">Email</label>
-                                    <div class="col-md-8">
-                                        <input type="email" id="user-settings-email" name="user-settings-email" class="form-control" value="admin@example.com">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label" for="user-settings-notifications">Email Notifications</label>
-                                    <div class="col-md-8">
-                                        <label class="switch switch-primary">
-                                            <input type="checkbox" id="user-settings-notifications" name="user-settings-notifications" value="1" checked>
-                                            <span></span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </fieldset>
-                            <fieldset>
-                                <legend>Password Update</legend>
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label" for="user-settings-password">New Password</label>
-                                    <div class="col-md-8">
-                                        <input type="password" id="user-settings-password" name="user-settings-password" class="form-control" placeholder="Please choose a complex one..">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label" for="user-settings-repassword">Confirm New Password</label>
-                                    <div class="col-md-8">
-                                        <input type="password" id="user-settings-repassword" name="user-settings-repassword" class="form-control" placeholder="..and confirm it!">
-                                    </div>
-                                </div>
+                                {% endfor %}
                             </fieldset>
                             <div class="form-group form-actions">
                                 <div class="col-xs-12 text-right">
                                     <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-sm btn-primary">Save Changes</button>
+                                    <button type="submit" class="btn btn-sm btn-primary">Save</button>
                                 </div>
                             </div>
                         </form>
