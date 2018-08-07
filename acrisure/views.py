@@ -8,7 +8,7 @@ from django.dispatch import receiver
 from django.contrib.auth.decorators import login_required
 
 from .models import *
-from .forms import AccountForm
+from .forms import AccountForm, CoverageForm, PolicyForm
 
 
 # Login view @ index
@@ -35,11 +35,22 @@ def index(request):
 def dashboard_view(request):
     """ Dashboard / Login Landing View / Main Page """
 
-    # Generate blank form
-    form = AccountForm()
-    return render(request, "acrisure/dashboard.html", {'accountform': form})
+    # Generate blank forms
+    accountform = AccountForm()
+    coverageform = CoverageForm()
+    policyform = PolicyForm()
+
+    # Create Template Context
+    context = {
+        'accountform': accountform,
+        'coverageform': coverageform,
+        'policyform': policyform,
+    }
+
+    return render(request, "acrisure/dashboard.html", context)
 
 
+@login_required(login_url='/')
 def add_client(request):
     if request.method == 'POST':
         # Generate form with data from the request
@@ -48,7 +59,38 @@ def add_client(request):
         # Call is_valid() to validate data and create cleaned_data and errors dict
         if accountform.is_valid():
             accountform.save()
-            print("Here")
+            return HttpResponseRedirect(reverse("dashboard"))
+
+        # !!! This needs to be changed !!!
+        return HttpResponse("Recieved unclean Form")
+    return HttpResponseRedirect(reverse("index"))
+
+
+@login_required(login_url='/')
+def add_coverage(request):
+    if request.method == 'POST':
+        # Generate form with data from the request
+        coverageform = CoverageForm(request.POST)
+        # Reference is now a bound instance with user data sent in POST
+        # Call is_valid() to validate data and create cleaned_data and errors dict
+        if coverageform.is_valid():
+            coverageform.save()
+            return HttpResponseRedirect(reverse("dashboard"))
+
+        # !!! This needs to be changed !!!
+        return HttpResponse("Recieved unclean Form")
+    return HttpResponseRedirect(reverse("index"))
+
+
+@login_required(login_url='/')
+def add_policy(request):
+    if request.method == 'POST':
+        # Generate form with data from the request
+        policyform = PolicyForm(request.POST)
+        # Reference is now a bound instance with user data sent in POST
+        # Call is_valid() to validate data and create cleaned_data and errors dict
+        if policyform.is_valid():
+            policyform.save()
             return HttpResponseRedirect(reverse("dashboard"))
 
         # !!! This needs to be changed !!!

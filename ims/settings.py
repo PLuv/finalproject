@@ -123,3 +123,5 @@ STATIC_URL = '/static/'
 
 #This needs to be tested
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+CURRENCIES = ('USD', 'EUR', 'GBP', 'MXN', 'CAD')

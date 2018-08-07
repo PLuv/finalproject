@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAEA,gBAAiB;EACb,YAAY,EAAE,IAAI;;AAGtB,sDAAuD;EACnD,KAAK,EAAE,IAAI",
+"sources": ["mycontent.scss"],
+"names": [],
+"file": "mycontent.css"
+}

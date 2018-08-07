@@ -1,8 +1,8 @@
+# Acrisure models
 from djmoney.models.fields import MoneyField
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
-from djmoney.models.fields import MoneyField
 
 # User profile class to manipulate user attributes outside of the authenticate system
 # Profile = Employee/users * HR/Management(superusers)
@@ -55,7 +55,10 @@ class Coverage(models.Model):
     symbol = models.IntegerField()
     pip = models.CharField(max_length = 6)
     um = models.CharField(max_length = 15)
-    ded = MoneyField(max_digits=5, decimal_places=0, default_currency='USD')
+    ded = MoneyField(max_digits=7, decimal_places=0, default_currency='USD')
+
+    def __str__(self):
+        return f"Liability: {self.liability} UM: {self.um} Ded:{self.ded}"
 
 
 # Policy class

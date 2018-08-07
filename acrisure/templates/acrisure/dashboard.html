@@ -111,7 +111,9 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="#">Order View</a>
+                                            <a href="#policy-add" data-toggle="modal">
+                                            <span class="move_next_right">Add Policy</span><span><i class="gi gi-inbox_plus"></i></span>
+                                            </a>
                                         </li>
                                         <li>
                                             <a href="#">Products</a>
@@ -120,7 +122,9 @@
                                             <a href="#">Product Edit</a>
                                         </li>
                                         <li>
-                                            <a href="#">Customer View</a>
+                                            <a href="#coverage-add" data-toggle="modal">
+                                            <span class="move_next_right">Add New Coverage Details</span><span><i class="gi gi-umbrella"></i></span>
+                                            </a>
                                         </li>
                                     </ul>
                                 </li>
@@ -289,11 +293,84 @@
                             </div>
                         </form>
                     </div>
-                    <!-- END Modal Body -->
                 </div>
             </div>
         </div>
-        <!-- END User Settings -->
+        <!-- END END Client-add Modal -->
+        <!-- Add coverage details modal which opens from add-coverage on sidebar under navigation -->
+        <div id="coverage-add" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Client Modal Header -->
+                    <div class="modal-header text-center">
+                        <h2 class="modal-title"><i class="fa fa-pencil"></i>Add a New Coverage</h2>
+                    </div>
+                    <!-- END Modal Header -->
+
+                    <!-- Coverge Modal Body -->
+                    <div class="modal-body">
+                        <form action="{% url 'add_coverage' %}" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered">
+                            {% csrf_token %}
+                            <fieldset>
+                                <legend>Coverage Info</legend>
+                                {% for field in coverageform %}
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="user-settings-password">{{ field.name }}</label>
+                                    <div class="col-md-8">
+                                        {{ field }}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </fieldset>
+                            <div class="form-group form-actions">
+                                <div class="col-xs-12 text-right">
+                                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-sm btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END coverage-add Modal -->
+        <!-- Add policy modal which opens from add-policy on sidebar under navigation -->
+        <div id="policy-add" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Client Modal Header -->
+                    <div class="modal-header text-center">
+                        <h2 class="modal-title"><i class="fa fa-pencil"></i>Add New Policy</h2>
+                    </div>
+                    <!-- END Modal Header -->
+
+                    <!-- Coverge Modal Body -->
+                    <div class="modal-body">
+                        <form action="{% url 'add_policy' %}" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered">
+                            {% csrf_token %}
+                            <fieldset>
+                                <legend>Policy Details</legend>
+                                {% for field in policyform %}
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="user-settings-password">{{ field.name }}</label>
+                                    <div class="col-md-8">
+                                        {{ field }}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </fieldset>
+                            <div class="form-group form-actions">
+                                <div class="col-xs-12 text-right">
+                                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-sm btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END policy-add Modal -->
 
         <!-- jQuery, Bootstrap.js, jQuery plugins and Custom JS code -->
         <script src="{% static 'acrisure/dashjs/jquery.min.js' %}"></script>
