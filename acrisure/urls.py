@@ -9,4 +9,5 @@ urlpatterns = [
     path("add_client", views.add_client, name="add_client"),
     path("add_coverage", views.add_coverage, name="add_coverage"),
     path("add_policy", views.add_policy, name="add_policy"),
+    path("add_vehicle", views.add_vehicle, name="add_vehicle"),
 ]

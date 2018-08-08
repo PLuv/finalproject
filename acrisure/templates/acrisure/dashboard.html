@@ -100,7 +100,7 @@
                             <!-- Sidebar Navigation -->
                             <ul class="sidebar-nav">
                                 <li>
-                                    <a href="#" class="sidebar-nav-menu"><i class="fa fa-angle-left sidebar-nav-indicator sidebar-nav-mini-hide"></i><i class="gi gi-wifi_alt sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Navigation</span></a>
+                                    <a href="#" class="sidebar-nav-menu"><i class="fa fa-angle-left sidebar-nav-indicator sidebar-nav-mini-hide"></i><i class="gi gi-wifi_alt sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Add Navigator</span></a>
                                     <ul>
                                         <li>
                                             <a href="{% url 'dashboard' %}">Dashboard</a>
@@ -116,10 +116,9 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="#">Products</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Product Edit</a>
+                                            <a href="#vehicle-add" data-toggle="modal">
+                                            <span class="move_next_right">Add Vehicle</span><span><i class="gi gi-cars"></i></span>
+                                            </a>
                                         </li>
                                         <li>
                                             <a href="#coverage-add" data-toggle="modal">
@@ -301,13 +300,13 @@
         <div id="coverage-add" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <!-- Client Modal Header -->
+                    <!-- Coverage Modal Header -->
                     <div class="modal-header text-center">
                         <h2 class="modal-title"><i class="fa fa-pencil"></i>Add a New Coverage</h2>
                     </div>
                     <!-- END Modal Header -->
 
-                    <!-- Coverge Modal Body -->
+                    <!-- Coverage Modal Body -->
                     <div class="modal-body">
                         <form action="{% url 'add_coverage' %}" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered">
                             {% csrf_token %}
@@ -338,13 +337,13 @@
         <div id="policy-add" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <!-- Client Modal Header -->
+                    <!-- Policy Modal Header -->
                     <div class="modal-header text-center">
                         <h2 class="modal-title"><i class="fa fa-pencil"></i>Add New Policy</h2>
                     </div>
                     <!-- END Modal Header -->
 
-                    <!-- Coverge Modal Body -->
+                    <!-- Policy Modal Body -->
                     <div class="modal-body">
                         <form action="{% url 'add_policy' %}" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered">
                             {% csrf_token %}
@@ -371,11 +370,49 @@
             </div>
         </div>
         <!-- END policy-add Modal -->
+        <!-- Add Vehicle modal which opens from add-vehicle on sidebar under navigation -->
+        <div id="vehicle-add" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Vehicle Modal Header -->
+                    <div class="modal-header text-center">
+                        <h2 class="modal-title"><i class="fa fa-pencil"></i>Add New Vehicle</h2>
+                    </div>
+                    <!-- END Modal Header -->
+
+                    <!-- Vehicle Modal Body -->
+                    <div class="modal-body">
+                        <form action="{% url 'add_vehicle' %}" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered">
+                            {% csrf_token %}
+                            <fieldset>
+                                <legend>Vehicle Details</legend>
+                                {% for field in vehicleform %}
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="user-settings-password">{{ field.name }}:</label>
+                                    <div class="col-md-8">
+                                        {{ field }}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </fieldset>
+                            <div class="form-group form-actions">
+                                <div class="col-xs-12 text-right">
+                                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-sm btn-primary">Add</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END vehicle-add Modal -->
 
         <!-- jQuery, Bootstrap.js, jQuery plugins and Custom JS code -->
         <script src="{% static 'acrisure/dashjs/jquery.min.js' %}"></script>
         <script src="{% static 'acrisure/dashjs/bootstrap.min.js' %}"></script>
         <script src="{% static 'acrisure/dashjs/plugins.js' %}"></script>
         <script src="{% static 'acrisure/dashjs/app.js' %}"></script>
+        <script src="{% static 'acrisure/dashjs/dash.js' %}"></script>
     </body>
 </html>

@@ -1,6 +1,6 @@
 # Acrisure forms
 from djmoney.models.fields import MoneyField
-from django.forms import ModelForm, Textarea
+from django.forms import ModelForm, Textarea, ModelChoiceField
 from django import forms
 from acrisure.models import *
 
@@ -25,4 +25,15 @@ class CoverageForm(ModelForm):
 class PolicyForm(ModelForm):
     class Meta:
         model = Policy
+        fields = '__all__'
+
+# Policy selector form
+class PolicySelector(forms.Form):
+    policy = ModelChoiceField(queryset=Policy.objects.all())
+
+
+# Vehicle form
+class VehicleForm(ModelForm):
+    class Meta:
+        model = Vehicle
         fields = '__all__'

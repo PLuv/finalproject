@@ -8,7 +8,7 @@ from django.dispatch import receiver
 from django.contrib.auth.decorators import login_required
 
 from .models import *
-from .forms import AccountForm, CoverageForm, PolicyForm
+from .forms import AccountForm, CoverageForm, PolicyForm, VehicleForm, PolicySelector
 
 
 # Login view @ index
@@ -39,12 +39,16 @@ def dashboard_view(request):
     accountform = AccountForm()
     coverageform = CoverageForm()
     policyform = PolicyForm()
+    vehicleform = VehicleForm()
+    policyselector = PolicySelector()
 
     # Create Template Context
     context = {
         'accountform': accountform,
         'coverageform': coverageform,
         'policyform': policyform,
+        'vehicleform': vehicleform,
+        'policyselector': policyselector,
     }
 
     return render(request, "acrisure/dashboard.html", context)
@@ -92,6 +96,20 @@ def add_policy(request):
         if policyform.is_valid():
             policyform.save()
             return HttpResponseRedirect(reverse("dashboard"))
+
+        # !!! This needs to be changed !!!
+        return HttpResponse("Recieved unclean Form")
+    return HttpResponseRedirect(reverse("index"))
+
+
+@login_required(login_url='/')
+def add_vehicle(request):
+    if request.method == 'POST':
+        vehicleform = VehicleForm(request.POST)
+        if vehicleform.is_valid():
+            vehicleform.save()
+            return HttpResponseRedirect(reverse("dashboard"))
+
 
         # !!! This needs to be changed !!!
         return HttpResponse("Recieved unclean Form")

@@ -5,7 +5,8 @@ from django.conf import settings
 from django.contrib.auth.models import User
 
 # User profile class to manipulate user attributes outside of the authenticate system
-# Profile = Employee/users & HR/Management(superusers)
+# Profile = Employee/users * HR/Management(superusers)
+# Todo decide if user should be onetoone or foreign key
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
@@ -35,6 +36,19 @@ class Account(models.Model):
         return f"{self.name}"
 
 
+# Vehicle class
+class Vehicle(models.Model):
+    year = models.CharField(max_length = 35)
+    make = models.CharField(max_length = 20)
+    model = models.CharField(max_length = 20)
+    vin = models.CharField(max_length = 17)
+    ded = MoneyField(max_digits=5, decimal_places=0, default_currency='USD')
+    value = MoneyField(max_digits=8, decimal_places=2, default_currency='USD')
+
+    def __str__(self):
+        return f"{self.year} {self.make} {self.model}"
+
+
 # Coverage options
 class Coverage(models.Model):
     liability = models.CharField(max_length = 30)
@@ -53,27 +67,11 @@ class Policy(models.Model):
         ('CAU', 'Commercial Auto'),
         ('GL', 'General Liability'),
     )
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    company = models.OneToOneField(Company, on_delete=models.CASCADE)
     ptype = models.CharField(max_length = 3, choices=PTYPE_CHOICES)
     policy_number = models.CharField(max_length = 20)
-    account = models.ForeignKey(Account, on_delete=models.PROTECT)
+    account = models.OneToOneField(Account, on_delete=models.CASCADE)
     effective_date = models.DateField(null=True)
     expiration_date = models.DateField(null=True)
     coverages = models.ForeignKey(Coverage, on_delete=models.PROTECT, null=True, blank=True)
-
-    def __str__(self):
-        return f"{self.account} {self.ptype} policy # {self.policy_number}"
-
-
-# Vehicle class
-class Vehicle(models.Model):
-    policy = models.ForeignKey(Policy, on_delete=models.CASCADE)
-    year = models.CharField(max_length = 35)
-    make = models.CharField(max_length = 20)
-    model = models.CharField(max_length = 20)
-    vin = models.CharField(max_length = 17)
-    ded = MoneyField(max_digits=5, decimal_places=0, default_currency='USD')
-    value = MoneyField(max_digits=8, decimal_places=2, default_currency='USD')
-
-    def __str__(self):
-        return f"{self.year} {self.make} {self.model}"
+    vehicles = models.ForeignKey(Vehicle, on_delete=models.PROTECT, null=True, blank=True)
