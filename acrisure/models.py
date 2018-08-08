@@ -75,3 +75,6 @@ class Policy(models.Model):
     expiration_date = models.DateField(null=True)
     coverages = models.ForeignKey(Coverage, on_delete=models.PROTECT, null=True, blank=True)
     vehicles = models.ForeignKey(Vehicle, on_delete=models.PROTECT, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.ptype} policy for {self.account} policy #{self.policy_number}"
