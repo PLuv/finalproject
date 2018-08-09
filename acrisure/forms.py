@@ -36,7 +36,7 @@ class PolicyForm(ModelForm):
         }
 
 
-# Account selector form
+# Account selector form for policy cancel
 class AccountSelector(forms.Form):
     accounts = ModelChoiceField(queryset=Account.objects.all())
 

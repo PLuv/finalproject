@@ -46,7 +46,7 @@
         <script id="cnx_policy_script" type="text/x-handlebars-template">
             <legend>Select Policy to Cancel</legend>
             <div class="form-group">
-                <label class="col-md-4 control-label" for="user-settings-password">Select Account:</label>
+                <label class="col-md-4 control-label" for="user-settings-password">Select Policy:</label>
                 <div class="col-md-8">
                     <select name="cnx_pol_selector" required id="id_cnx_pol">
                     <option value selected>----------</option>
@@ -57,6 +57,45 @@
                 </div>
                 <div class="col-md-8">
                     <input type="date" name="new_expiration_date" required id="new_expiration_date">
+                </div>
+            </div>
+            <div class="form-group form-actions">
+                <div class="col-xs-12 text-right">
+                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Nevermind</button>
+                    <button type="submit" class="btn btn-sm btn-primary">Process</button>
+                </div>
+            </div>
+        </script>
+        <script id="sel_policy_script" type="text/x-handlebars-template">
+            <legend>Select Policy & Vehcile</legend>
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="user-settings-password">Select Policy:</label>
+                <div class="col-md-8">
+                    <select name="pol_selector" required id="id_sel_pol">
+                    <option value selected>----------</option>
+                    {{#each policies}}
+                    <option value="{{ this }}">{{ this }}</option>
+                    {{/each}}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group form-actions">
+                <div class="col-xs-12 text-right">
+                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Nevermind</button>
+                    <button type="submit" class="btn btn-sm btn-primary">Select</button>
+                </div>
+            </div>
+        </script>
+        <script id="sel_veh_script" type="text/x-handlebars-template">
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="user-settings-password">Select Vehicle Vin:</label>
+                <div class="col-md-8">
+                    <select name="veh_selector" required id="id_sel_veh">
+                    <option value selected>----------</option>
+                    {{#each vehicles}}
+                    <option value="{{ this }}">{{ this }}</option>
+                    {{/each}}
+                    </select>
                 </div>
             </div>
             <div class="form-group form-actions">
@@ -172,8 +211,8 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="#" data-toggle="modal">
-                                            <span class="move_next_right">Remove Vehicle</span><span><i class="gi gi-cars"></i></span>
+                                            <a href="#vehicle-delete" data-toggle="modal">
+                                            <span class="move_next_right">Delete Vehicle</span><span><i class="gi gi-cars"></i></span>
                                             </a>
                                         </li>
                                     </ul>
@@ -459,7 +498,7 @@
             </div>
         </div>
         <!-- END vehicle-add Modal -->
-        <!-- Add Vehicle modal which opens from add-vehicle on sidebar under navigation -->
+        <!-- Policy Cancel modal which opens from policy-cancel on sidebar under navigation -->
         <div id="policy-cancel" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog" id="stretch">
                 <div class="modal-content" id="stretch">
@@ -469,7 +508,7 @@
                     </div>
                     <!-- END Modal Header -->
 
-                    <!-- Vehicle Modal Body -->
+                    <!-- Policy Cancel Modal Body -->
                     <div class="modal-body">
                         <form id="policy_cancel" enctype="multipart/form-data" class="form-horizontal form-bordered">
                             {% csrf_token %}
@@ -499,7 +538,53 @@
                 </div>
             </div>
         </div>
-        <!-- END vehicle-add Modal -->
+        <!-- END Policy Cancel Modal -->
+        <!-- Vehicle Delete modal which opens from vehicle-delete on sidebar under navigation -->
+        <div id="vehicle-delete" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" id="stretch">
+                <div class="modal-content" id="stretch">
+                    <!-- Vehicle Modal Header -->
+                    <div class="modal-header text-center">
+                        <h2 class="modal-title"><i class="fa fa-pencil"></i>Delete a Vehicle</h2>
+                    </div>
+                    <!-- END Modal Header -->
+
+                    <!-- vehicle delete Modal Body -->
+                    <div class="modal-body">
+                        <form id="vehicle_dlt" enctype="multipart/form-data" class="form-horizontal form-bordered">
+                            {% csrf_token %}
+                            <fieldset>
+                                <legend>Policy To Delete Vehicle From</legend>
+                                {% for field in accountselector2 %}
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="user-settings-password">Select Account:</label>
+                                    <div class="col-md-8">
+                                        {{ field }}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </fieldset>
+                            <div class="form-group form-actions">
+                                <div class="col-xs-12 text-right">
+                                    <button id="veh_close" type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-sm btn-primary">Select</button>
+                                </div>
+                            </div>
+                        </form>
+                        <form id="sel_pol">
+                            {% csrf_token %}
+                            <div id="sel_policy_div"></div>
+                        </form>
+                        <form id="veh_sel">
+                            {% csrf_token %}
+                            <div id="veh_sel_div"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END vehicle delete Modal -->
+
 
         <!-- jQuery, Bootstrap.js, jQuery plugins and Custom JS code -->
         <script src="{% static 'acrisure/dashjs/jquery.min.js' %}"></script>

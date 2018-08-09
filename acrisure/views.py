@@ -43,6 +43,7 @@ def dashboard_view(request):
     policyform = PolicyForm()
     vehicleform = VehicleForm()
     accountselector = AccountSelector()
+    accountselector2 = AccountSelector(auto_id='id_for_%s')
 
     # Create Template Context
     context = {
@@ -51,6 +52,7 @@ def dashboard_view(request):
         'policyform': policyform,
         'vehicleform': vehicleform,
         'accountselector': accountselector,
+        'accountselector2': accountselector2,
     }
 
     return render(request, "acrisure/dashboard.html", context)
@@ -125,7 +127,6 @@ def policy_cancel(request):
 
         if meta == 0:
             id_accounts = request.POST.get('account_choice')
-            print(dict(data=list(Policy.objects.filter(account=id_accounts).values('policy_number'))))
             return JsonResponse(dict(data=list(Policy.objects.filter(account=id_accounts).values('policy_number'))))
         elif meta == 1:
             id_cnx_pol = request.POST.get('cnx_policy_choice')
@@ -139,7 +140,33 @@ def policy_cancel(request):
             return JsonResponse({'success': False})
 
     else:
-        return HttpResponse("Todo get on policy_cancel")
+        return HttpResponseRedirect(reverse("dashboard"))
+
+
+@login_required(login_url='/')
+def veh_delete(request):
+    if request.method == 'POST':
+        meta = int(request.POST.get('meta'))
+        if meta == 0:
+            id_for_accounts = request.POST.get('account_choice')
+            return JsonResponse(dict(data=list(Policy.objects.filter(account=id_for_accounts).values('policy_number'))))
+        elif meta == 1:
+            id_sel_pol = request.POST.get('id_sel_pol')
+            policy = Policy.objects.get(policy_number=id_sel_pol)
+            all_vehicles = policy.vehicles.all().values('vin')
+            return JsonResponse(dict(data=list(all_vehicles)))
+        elif meta == 2:
+            id_sel_veh = request.POST.get('id_sel_veh')
+            vehicle = Vehicle.objects.get(vin=id_sel_veh)
+            result = vehicle.delete()
+            if len(result) > 0:
+                return JsonResponse({'success': True})
+            else:
+                return JsonResponse({'success': False})
+
+
+    else:
+        return HttpResponseRedirect(reverse("dashboard"))
 
 
 # Logs user out

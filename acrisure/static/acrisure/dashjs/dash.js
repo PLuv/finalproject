@@ -64,6 +64,100 @@ document.addEventListener('DOMContentLoaded', () => {
         request.send(data);
         return false;
     };
+
+    // Vehicle delete code:
+    document.querySelector('#vehicle_dlt').onsubmit = () => {
+        // initialize new request
+        var cookies = parse_cookies();
+        const request = new XMLHttpRequest();
+        request.open('POST', '/veh_delete');
+        request.setRequestHeader('X-CSRFToken', cookies['csrftoken']);
+
+        // Callback
+        request.onload = () => {
+            const data = JSON.parse(request.responseText);
+            var len = data.data.length;
+            if (len > 0){
+                const template = Handlebars.compile(document.querySelector('#sel_policy_script').innerHTML);
+                var policies = [];
+                for (let i = 0; i < len; i++) {
+                    policies.push(data.data[i].policy_number);
+                }
+                // add policy choices to DOM
+                const content = template({'policies': policies});
+                document.querySelector('#sel_policy_div').innerHTML += content;
+            }
+            else {
+                alert("There has been an error, please reload dashboard and try again.");
+            }
+        };
+
+        // add data & send
+        const data = new FormData();
+        var id_for_accounts = document.querySelector('#id_for_accounts').value;
+        data.append('account_choice', id_for_accounts);
+        data.append('meta', 0);
+        request.send(data);
+        return false;
+    };
+
+    // get vehicles from selected policy
+    document.querySelector('#sel_pol').onsubmit = () => {
+        // initialize Request
+        var cookies = parse_cookies();
+        const request = new XMLHttpRequest();
+        request.open('POST', '/veh_delete');
+        request.setRequestHeader('X-CSRFToken', cookies['csrftoken']);
+
+        // callback
+        request.onload = () => {
+            const data = JSON.parse(request.responseText);
+            var len = data.data.length;
+            if (len > 0) {
+                const template = Handlebars.compile(document.querySelector('#sel_veh_script').innerHTML);
+                var vehicles = [];
+                for (let i = 0; i < len; i++) {
+                    vehicles.push(data.data[i].vin);
+                }
+                // add Vehicle choices to DOM
+                const content = template({'vehicles': vehicles});
+                document.querySelector('#veh_sel_div').innerHTML += content;
+            }
+        };
+        // add data to send
+        const data = new FormData();
+        var id_sel_pol = document.querySelector('#id_sel_pol').value;
+        data.append('id_sel_pol', id_sel_pol);
+        data.append('meta', 1);
+        request.send(data);
+        return false;
+    };
+
+    // send selected vehicle to remove to server.
+    document.querySelector('#veh_sel').onsubmit = () => {
+        var cookies = parse_cookies();
+        const request = new XMLHttpRequest();
+        request.open('POST', '/veh_delete');
+        request.setRequestHeader('X-CSRFToken', cookies['csrftoken']);
+
+        // Callback
+        request.onload = () => {
+            const data = JSON.parse(request.responseText);
+            if (data.success) {
+                alert(`"Vehicle deleted successfully`);
+                document.querySelector('#veh_close').click();
+            }
+            else {
+                alert("oops something went wrong. Please reload dashboard and try again");
+            }
+        };
+        const data = new FormData();
+        var id_sel_veh = document.querySelector('#id_sel_veh').value;
+        data.append('id_sel_veh', id_sel_veh);
+        data.append('meta', 2);
+        request.send(data);
+        return false;
+    };
 });
 
 // Find the CSRF Token cookie value

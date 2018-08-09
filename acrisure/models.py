@@ -67,7 +67,7 @@ class Policy(models.Model):
 
 # Vehicle class
 class Vehicle(models.Model):
-    policy = models.ForeignKey(Policy, on_delete=models.CASCADE)
+    policy = models.ForeignKey(Policy, related_name='vehicles', on_delete=models.CASCADE)
     year = models.CharField(max_length = 35)
     make = models.CharField(max_length = 20)
     model = models.CharField(max_length = 20)
