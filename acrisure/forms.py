@@ -21,15 +21,24 @@ class CoverageForm(ModelForm):
         fields = '__all__'
 
 
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
+
 # Policy form
 class PolicyForm(ModelForm):
     class Meta:
         model = Policy
         fields = '__all__'
+        widgets = {
+            'effective_date': DateInput(),
+            'expiration_date': DateInput()
+        }
 
-# Policy selector form
-class PolicySelector(forms.Form):
-    policy = ModelChoiceField(queryset=Policy.objects.all())
+
+# Account selector form
+class AccountSelector(forms.Form):
+    accounts = ModelChoiceField(queryset=Account.objects.all())
 
 
 # Vehicle form

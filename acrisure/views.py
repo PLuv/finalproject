@@ -6,9 +6,11 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.decorators import login_required
+#from django.core.serializers import serialize
+#from django.core import serializers
 
 from .models import *
-from .forms import AccountForm, CoverageForm, PolicyForm, VehicleForm, PolicySelector
+from .forms import AccountForm, CoverageForm, PolicyForm, VehicleForm, AccountSelector
 
 
 # Login view @ index
@@ -40,7 +42,7 @@ def dashboard_view(request):
     coverageform = CoverageForm()
     policyform = PolicyForm()
     vehicleform = VehicleForm()
-    policyselector = PolicySelector()
+    accountselector = AccountSelector()
 
     # Create Template Context
     context = {
@@ -48,7 +50,7 @@ def dashboard_view(request):
         'coverageform': coverageform,
         'policyform': policyform,
         'vehicleform': vehicleform,
-        'policyselector': policyselector,
+        'accountselector': accountselector,
     }
 
     return render(request, "acrisure/dashboard.html", context)
@@ -115,6 +117,29 @@ def add_vehicle(request):
         return HttpResponse("Recieved unclean Form")
     return HttpResponseRedirect(reverse("index"))
 
+
+@login_required(login_url='/')
+def policy_cancel(request):
+    if request.method == 'POST':
+        meta = int(request.POST.get('meta'))
+
+        if meta == 0:
+            id_accounts = request.POST.get('account_choice')
+            print(dict(data=list(Policy.objects.filter(account=id_accounts).values('policy_number'))))
+            return JsonResponse(dict(data=list(Policy.objects.filter(account=id_accounts).values('policy_number'))))
+        elif meta == 1:
+            id_cnx_pol = request.POST.get('cnx_policy_choice')
+            new_expiration_date = request.POST.get('new_expiration_date')
+            result = Policy.objects.filter(policy_number=id_cnx_pol).update(expiration_date=new_expiration_date)
+            if result == 1:
+                return JsonResponse({'success': True, 'exp': new_expiration_date})
+            else:
+                return JsonResponse({'success': False})
+        else:
+            return JsonResponse({'success': False})
+
+    else:
+        return HttpResponse("Todo get on policy_cancel")
 
 
 # Logs user out

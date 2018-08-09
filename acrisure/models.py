@@ -41,7 +41,7 @@ class Coverage(models.Model):
     symbol = models.IntegerField()
     pip = models.CharField(max_length = 6)
     um = models.CharField(max_length = 15)
-    ded = MoneyField(max_digits=7, decimal_places=0, default_currency='USD')
+    ded = MoneyField(max_digits=7, decimal_places=0, default_currency='USD', default=0)
 
     def __str__(self):
         return f"Liability: {self.liability} UM: {self.um} Ded:{self.ded}"
