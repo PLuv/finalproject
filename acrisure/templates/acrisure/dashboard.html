@@ -105,6 +105,15 @@
                 </div>
             </div>
         </script>
+        <script id="details_script" type="text/x-handlebars-template">
+            <div class="detail_div">{{ name }}</div>
+            <div class="details_info">
+            <p>Owner:   {{ owner }}</p>
+            <p>Phone:   {{ phone }}</p>
+            <p>Email:   {{ email }}</p>
+            <p>Address: {{ address }}</p>
+            </div>
+        </script>
         {% endverbatim %}
         <!-- END Stylesheets -->
 
@@ -201,11 +210,6 @@
                                     <a href="#" class="sidebar-nav-menu"><i class="fa fa-angle-left sidebar-nav-indicator sidebar-nav-mini-hide"></i><i class="gi gi-wifi_alt sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Cancel Navigator</span></a>
                                     <ul>
                                         <li>
-                                            <a href="#client-cancel" data-toggle="modal">
-                                            <span class="move_next_right">Deactivate Client</span><span><i class="gi gi-user_add"></i></span>
-                                            </a>
-                                        </li>
-                                        <li>
                                             <a href="#policy-cancel" data-toggle="modal">
                                             <span class="move_next_right">Cancel Policy</span><span><i class="gi gi-inbox_plus"></i></span>
                                             </a>
@@ -219,10 +223,10 @@
                                 </li>
 
                                 <li class="sidebar-header">
-                                    <span class="sidebar-header-title">Widget Kit</span>
+                                    <span class="sidebar-header-title">Content Kit</span>
                                 </li>
                                 <li>
-                                    <a href="page_widgets_links.html"><i class="gi gi-link sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Links</span></a>
+                                    <a href="#details" data-toggle="modal"><i class="gi gi-link sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Policy Details</span></a>
                                 </li>
                             </ul>
                             <!-- END Sidebar Navigation -->
@@ -321,7 +325,6 @@
                             </div>
 
                             <div id=content_block>
-                                <p>Your content..</p>
                             </div>
 
                         </div>
@@ -584,6 +587,44 @@
             </div>
         </div>
         <!-- END vehicle delete Modal -->
+        <!-- Details Modal -->
+        <div id="details" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" id="stretch">
+                <div class="modal-content" id="stretch">
+                    <!-- Vehicle Modal Header -->
+                    <div class="modal-header text-center">
+                        <h2 class="modal-title"><i class="fa fa-pencil"></i>Policy Details</h2>
+                    </div>
+                    <!-- END Modal Header -->
+
+                    <!-- Details Modal Body -->
+                    <div class="modal-body">
+                        <form id="acct_details" enctype="multipart/form-data" class="form-horizontal form-bordered">
+                            {% csrf_token %}
+                            <fieldset>
+                                <legend>Policy To View</legend>
+                                {% for field in accountselector3 %}
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="user-settings-password">Select Account:</label>
+                                    <div class="col-md-8">
+                                        {{ field }}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </fieldset>
+                            <div class="form-group form-actions">
+                                <div class="col-xs-12 text-right">
+                                    <button id="details_close" type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-sm btn-primary">Select</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END details Modal -->
+
 
 
         <!-- jQuery, Bootstrap.js, jQuery plugins and Custom JS code -->

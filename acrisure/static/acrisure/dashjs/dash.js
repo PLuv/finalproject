@@ -158,6 +158,40 @@ document.addEventListener('DOMContentLoaded', () => {
         request.send(data);
         return false;
     };
+
+    // details
+    document.querySelector('#acct_details').onsubmit = () => {
+        var cookies = parse_cookies();
+        const request = new XMLHttpRequest();
+        request.open('POST', '/details');
+        request.setRequestHeader('X-CSRFToken', cookies['csrftoken']);
+
+        //callback
+        request.onload = () => {
+            const data = JSON.parse(request.responseText);
+            console.log(data);
+            var len = data.data.length;
+            document.querySelector('#details_close').click();
+            if (len > 0) {
+                const template = Handlebars.compile(document.querySelector('#details_script').innerHTML);
+                var name = data.data[0].name;
+                var owner = data.data[0].owner;
+                var phone = data.data[0].phone;
+                var email = data.data[0].email;
+                var address = data.data[0].address;
+                let content = template({'name': name, 'owner': owner, 'phone': phone, 'email': email, 'address': address});
+                document.querySelector('#content_block').innerHTML += content;
+            }
+            else {
+                alert("looks like there was an error.  Please reload dashboard.");
+            }
+        };
+        const data = new FormData();
+        var id_of_accounts = document.querySelector('#id_of_accounts').value;
+        data.append('id_of_accounts', id_of_accounts);
+        request.send(data);
+        return false;
+    };
 });
 
 // Find the CSRF Token cookie value

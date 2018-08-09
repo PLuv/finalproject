@@ -26,7 +26,7 @@ def index(request):
             login(request, user)
             return HttpResponseRedirect(reverse("dashboard"))
         else:
-            return HttpResponse("Todo username or password is wrong")
+            return HttpResponseRedirect(reverse("index"))
     else:
         if request.user.is_authenticated:
             return HttpResponseRedirect(reverse("dashboard"))
@@ -44,6 +44,7 @@ def dashboard_view(request):
     vehicleform = VehicleForm()
     accountselector = AccountSelector()
     accountselector2 = AccountSelector(auto_id='id_for_%s')
+    accountselector3 = AccountSelector(auto_id='id_of_%s')
 
     # Create Template Context
     context = {
@@ -53,6 +54,7 @@ def dashboard_view(request):
         'vehicleform': vehicleform,
         'accountselector': accountselector,
         'accountselector2': accountselector2,
+        'accountselector3': accountselector3,
     }
 
     return render(request, "acrisure/dashboard.html", context)
@@ -167,6 +169,13 @@ def veh_delete(request):
 
     else:
         return HttpResponseRedirect(reverse("dashboard"))
+
+
+@login_required(login_url='/')
+def details(request):
+    if request.method == 'POST':
+        id_of_accounts = request.POST.get('id_of_accounts')
+        return JsonResponse(dict(data=list(Account.objects.filter(pk=id_of_accounts).values())))
 
 
 # Logs user out
